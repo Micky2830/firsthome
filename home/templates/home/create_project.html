@@ -305,6 +305,23 @@
                   {% if form.city.errors %}<p class="field-error">⚠ {{ form.city.errors|join:", " }}</p>{% endif %}
                 </div>
 
+                <!-- Map Links -->
+                <div>
+                  <label class="lbl" for="id_waze_link">Waze Link</label>
+                  <input type="url" name="waze_link" id="id_waze_link" class="fld"
+                    placeholder="cth. https://waze.com/ul?ll=..."
+                    value="{{ form.waze_link.value|default:'' }}"/>
+                  {% if form.waze_link.errors %}<p class="field-error">⚠ {{ form.waze_link.errors|join:", " }}</p>{% endif %}
+                </div>
+
+                <div>
+                  <label class="lbl" for="id_google_maps_link">Google Maps Link</label>
+                  <input type="url" name="google_maps_link" id="id_google_maps_link" class="fld"
+                    placeholder="cth. https://maps.google.com/..."
+                    value="{{ form.google_maps_link.value|default:'' }}"/>
+                  {% if form.google_maps_link.errors %}<p class="field-error">⚠ {{ form.google_maps_link.errors|join:", " }}</p>{% endif %}
+                </div>
+
                 <!-- Property Ownership -->
                 <div>
                   <label class="lbl" for="id_property_ownership">Pegangan Hak Milik <span class="req">*</span></label>
@@ -684,7 +701,7 @@ function updateChecklist() {
 }
 
 // attach listeners
-['id_project_name','id_status','id_progress_tag','id_project_state','id_city','id_project_desc','id_special_features','id_total_units']
+['id_project_name','id_status','id_progress_tag','id_project_state','id_city','id_waze_link','id_google_maps_link','id_project_desc','id_special_features','id_total_units']
   .forEach(id => { const el = document.getElementById(id); if(el) el.addEventListener('input', updateChecklist); });
 
 // ═══════════════════════════════════════
