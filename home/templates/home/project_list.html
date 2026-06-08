@@ -128,6 +128,207 @@
 .closing-banner img {
   animation: popUp .9s cubic-bezier(.2,.8,.3,1) both;
 }
+
+    @media (max-width: 1024px) {
+      .site-header > div { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+      .primary-nav { gap: 1.25rem !important; }
+      .primary-nav a { font-size: 0.78rem !important; letter-spacing: 0.12em !important; }
+      .brand { width: 26% !important; }
+      .value-cards { gap: 1.25rem !important; }
+      .site-footer { padding-left: 28px !important; padding-right: 28px !important; }
+    }
+
+    @media (max-width: 768px) {
+      /* Header: brand + language on top, nav wraps onto its own centered row */
+      .site-header > div {
+        flex-wrap: wrap !important;
+        row-gap: 0.6rem !important;
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+      }
+      .brand { width: 150px !important; margin-bottom: 0 !important; }
+      .primary-nav {
+        display: flex !important;           /* override Tailwind's `hidden` */
+        order: 3;
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.65rem 1.1rem !important;
+      }
+      .primary-nav a {
+        font-size: 0.72rem !important;
+        opacity: 1 !important;              /* skip the fade-in offsets on mobile */
+        animation: none !important;
+        padding-bottom: 0 !important;
+      }
+    }
+    @media (max-width: 1024px) {
+  .site-header > div {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+
+  .primary-nav {
+    gap: 1.1rem !important;
+  }
+
+  .primary-nav a {
+    font-size: 0.72rem !important;
+    letter-spacing: 0.1em !important;
+  }
+
+  .brand {
+    width: 170px !important;
+    min-width: 140px !important;
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .site-header {
+    position: sticky !important;
+  }
+
+  .site-header > div {
+    flex-wrap: wrap !important;
+    row-gap: 0.7rem !important;
+    padding-top: 0.7rem !important;
+    padding-bottom: 0.7rem !important;
+  }
+
+  .brand {
+    width: 145px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .primary-nav {
+    display: flex !important;
+    order: 3 !important;
+    width: 100% !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 0.55rem 1rem !important;
+  }
+
+  .primary-nav a {
+    opacity: 1 !important;
+    animation: none !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.08em !important;
+  }
+}
+
+/* ===== NAVIGATION FIX ONLY ===== */
+.mobile-menu-button {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.25);
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .site-header {
+    position: sticky !important;
+    overflow: visible !important;
+  }
+
+  .site-header > div {
+    position: relative;
+    flex-wrap: nowrap !important;
+    row-gap: 0 !important;
+    padding-top: 0.55rem !important;
+    padding-bottom: 0.55rem !important;
+  }
+
+  .brand {
+    width: 138px !important;
+    min-width: 118px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .mobile-menu-button {
+    display: inline-flex !important;
+  }
+
+  .primary-nav {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 14px;
+    right: 14px;
+    display: grid !important;
+    grid-template-columns: 1fr;
+    width: auto !important;
+    gap: 0 !important;
+    padding: 10px;
+    border-radius: 18px;
+    background: #072a55;
+    box-shadow: 0 18px 35px rgba(0,0,0,.20);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    pointer-events: none;
+    transition: opacity .22s ease, transform .22s ease, visibility .22s ease;
+    z-index: 80;
+  }
+
+  .primary-nav.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .primary-nav a {
+    opacity: 1 !important;
+    animation: none !important;
+    display: block;
+    padding: 13px 14px;
+    border-radius: 12px;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.08em !important;
+    text-align: left;
+  }
+
+  .primary-nav a:hover {
+    background: rgba(255,255,255,.1);
+  }
+
+  .primary-nav a::after {
+    display: none;
+  }
+
+  .language-button {
+    padding: 0.42rem 0.72rem !important;
+    font-size: 0.7rem !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .brand {
+    width: 118px !important;
+    min-width: 110px !important;
+  }
+
+  .language-button {
+    padding: 0.36rem 0.58rem !important;
+    font-size: 0.66rem !important;
+  }
+
+  .mobile-menu-button {
+    width: 38px;
+    height: 38px;
+    font-size: 20px;
+  }
+}
+
   </style>
 </head>
 
@@ -135,7 +336,7 @@
   <main class="min-h-screen">
 
     <!-- ══════════════ HEADER ══════════════ -->
-<header class="site-header sticky top-0 z-30 bg-[#072a55] text-white shadow-lg overflow-visible">
+    <header class="site-header sticky top-0 z-30 bg-[#072a55] text-white shadow-lg overflow-visible">
       <div class="mx-auto flex w-full max-w-[1320px] items-center justify-between gap-4 px-6 py-0 sm:px-8 lg:px-12">
         <a class="brand relative block w-[20%] -mb-8 z-20" href="{% url 'home' %}" aria-label="FirstHome home">
           <img src="{% static 'img/FirstHome Logo Web.png' %}" alt="FirstHome" class="w-full h-auto block" />
@@ -150,8 +351,9 @@
           <a class="text-sm font-semibold uppercase tracking-[0.18em] transition hover:text-[#ff9e29]" href="#">Lokasi</a>
         </div>
 
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-3">
           <button class="language-button inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold uppercase tracking-[0.18em] text-white transition duration-300 hover:bg-white/20">EN</button>
+          <button class="mobile-menu-button" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
         </div>
       </div>
     </header>
@@ -432,23 +634,60 @@
     </section>
 
     <!-- ══════════════ FOOTER ══════════════ -->
-    <footer class="site-footer grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-4 md:gap-6 py-4 px-6 md:px-[54px] bg-[--navy] mt-[-2px] text-white text-[10px] font-semibold">
-      <form class="subscribe-form flex items-center justify-center md:justify-start gap-[14px]" onsubmit="return false">
+    <footer class="site-footer grid grid-cols-[1fr_auto_1fr] items-center gap-6 min-h-[54px] py-[10px] px-[54px] bg-[--navy] text-white text-[10px] font-semibold">
+      <form class="subscribe-form flex items-center gap-[14px]">
         <label for="email">Subscribe</label>
         <input id="email" name="email" type="email" placeholder="Your Email Here"
-          class="w-[205px] max-w-full h-[22px] border-0 px-[10px] text-navy text-[10px] font-bold rounded-sm">
+          class="w-[205px] h-[18px] border-0 px-[10px] text-navy text-[9px] font-bold">
       </form>
       <p class="m-0 text-center">&copy; 2026 by the FirstHome Builder Sdn Bhd</p>
-      <div class="social-links flex justify-center md:justify-end gap-4" aria-label="Social links">
-        <a href="#" class="grid place-items-center w-7 h-7 rounded-full bg-white text-navy transition-transform duration-[240ms] hover:-translate-y-[3px]" aria-label="Facebook">f</a>
-        <a href="#" class="grid place-items-center w-7 h-7 rounded-full bg-white text-navy transition-transform duration-[240ms] hover:-translate-y-[3px]" aria-label="Instagram">ig</a>
-        <a href="#" class="grid place-items-center w-7 h-7 rounded-full bg-white text-navy transition-transform duration-[240ms] hover:-translate-y-[3px]" aria-label="WhatsApp">wa</a>
+      <div class="social-links flex justify-end gap-4" aria-label="Social links">
+        <a href="#" class="grid place-items-center w-7 h-7 rounded-full bg-white transition-transform duration-[240ms] hover:-translate-y-[3px]" aria-label="Facebook">
+          <img src="{% static 'img/Icon Facebook.png' %}" alt="" class="w-full h-full object-contain">
+        </a>
+        <a href="#" class="grid place-items-center w-7 h-7 rounded-full bg-white transition-transform duration-[240ms] hover:-translate-y-[3px]" aria-label="Instagram">
+          <img src="{% static 'img/Icon Instagram.png' %}" alt="" class="w-full h-full object-contain">
+        </a>
+        <a href="#" class="grid place-items-center w-7 h-7 rounded-full bg-white transition-transform duration-[240ms] hover:-translate-y-[3px]" aria-label="WhatsApp">
+          <img src="{% static 'img/Icon Whatsapp.png' %}" alt="" class="w-full h-full object-contain">
+        </a>
       </div>
     </footer>
 
   </main>
 
   <script>
+
+    /* ───── mobile navigation ───── */
+    const mobileMenuButton = document.querySelector('.mobile-menu-button');
+    const primaryNav = document.querySelector('.primary-nav');
+
+    if (mobileMenuButton && primaryNav) {
+      mobileMenuButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const isOpen = primaryNav.classList.toggle('is-open');
+        mobileMenuButton.textContent = isOpen ? '×' : '☰';
+        mobileMenuButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+
+      primaryNav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          primaryNav.classList.remove('is-open');
+          mobileMenuButton.textContent = '☰';
+          mobileMenuButton.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!primaryNav.classList.contains('is-open')) return;
+        if (primaryNav.contains(event.target) || mobileMenuButton.contains(event.target)) return;
+
+        primaryNav.classList.remove('is-open');
+        mobileMenuButton.textContent = '☰';
+        mobileMenuButton.setAttribute('aria-expanded', 'false');
+      });
+    }
+
     /* ───── scroll reveal ───── */
     const io = new IntersectionObserver((entries, obs) => {
       entries.forEach(entry => {
