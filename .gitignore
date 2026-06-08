@@ -1,0 +1,13 @@
+db.sqlite3
+media/
+*.tif
+*.tiff
+*.psd
+*.ai
+*.zip
+*.rar
+__pycache__/
+*.pyc
+.env
+venv/
+.venv/

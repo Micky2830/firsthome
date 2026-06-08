@@ -1,0 +1,520 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FirstHome | Projek</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600;1,700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Montserrat', 'Arial', 'sans-serif'] },
+          colors: { navy: '#112b52', cream: '#fcf4eb', orange: '#ff9e29', ink: '#17325b', pink: '#ff3364', softpink: '#f793c8' },
+          boxShadow: {
+            soft: '0 26px 38px rgba(17, 43, 82, 0.1)',
+            softSm: '0 20px 38px rgba(17, 43, 82, 0.12)',
+            card: '0 14px 30px rgba(17, 43, 82, 0.08)',
+          },
+        },
+      },
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --navy: #112b52;
+      --cream: #fcf4eb;
+      --pink: #ff3364;
+      --soft-pink: #f793c8;
+      --orange: #ff9e29;
+      --ink: #17325b;
+      --white: #ffffff;
+    }
+    body { background: var(--cream); }
+
+    /* Prevent any horizontal scroll / right-side gap at every screen size */
+    html, body { max-width: 100%; overflow-x: hidden; overflow-x: clip; }
+
+    /* ───────── animations (shared with main.html) ───────── */
+    @keyframes headerSlideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes navFadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes popIn { from { opacity: 0; transform: scale(0); } to { opacity: 1; transform: scale(1); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes floatSoft { 0%,100% { translate: 0 0; } 50% { translate: 0 -7px; } }
+    @keyframes waRing { 0%,100% { transform: scale(1); opacity: .7; } 50% { transform: scale(1.3); opacity: 0; } }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+
+    .site-header { animation: headerSlideDown .5s cubic-bezier(.22,1,.36,1) both; }
+    .primary-nav a { position: relative; padding-bottom: .25rem; opacity: 0; animation: navFadeIn .4s ease forwards; transition: transform .24s ease; }
+    .primary-nav a:nth-child(1) { animation-delay: .15s; }
+    .primary-nav a:nth-child(2) { animation-delay: .22s; }
+    .primary-nav a:nth-child(3) { animation-delay: .29s; }
+    .primary-nav a:nth-child(4) { animation-delay: .36s; }
+    .primary-nav a:nth-child(5) { animation-delay: .43s; }
+    .primary-nav a:nth-child(6) { animation-delay: .50s; }
+    .primary-nav a::after { content: ""; position: absolute; left: 0; bottom: 0; width: 0; height: 2px; background: var(--orange); border-radius: 9999px; transition: width .28s ease; }
+    .primary-nav a:hover::after, .primary-nav a[aria-current]::after { width: 100%; }
+    .language-button { animation: popIn .45s .55s cubic-bezier(.18,.89,.32,1.28) both; transition: transform .24s ease; }
+    .language-button:hover { transform: translateY(-3px); }
+
+    .hero-banner { overflow-x: clip; }
+    .hero-title { opacity: 0; animation: fadeUp .7s .25s ease both; }
+    .hero-sub   { opacity: 0; animation: fadeUp .7s .42s ease both; }
+
+    .whatsapp-button { transition: transform .24s ease, box-shadow .24s ease; }
+    .whatsapp-button:hover { transform: translateY(-3px); }
+    .whatsapp-button::before { content: ""; position: absolute; inset: -6px; border-radius: 9999px; background: rgba(57,212,101,.28); animation: waRing 2.4s ease-in-out infinite; }
+
+    /* ───────── scroll reveal ───────── */
+    .reveal-fade { opacity: 0; transform: translateY(32px); transition: opacity .7s ease, transform .7s cubic-bezier(.22,1,.36,1); }
+    .reveal-fade.is-visible { opacity: 1; transform: translateY(0); }
+    .reveal-scale { opacity: 0; transform: scale(.72); transition: opacity .65s ease, transform .65s cubic-bezier(.18,.89,.32,1.22); }
+    .reveal-scale.is-visible { opacity: 1; transform: scale(1); }
+    .proj-card { opacity: 0; transform: translateY(38px) scale(.96); transition: opacity .6s ease, transform .6s cubic-bezier(.18,.89,.32,1.2), box-shadow .3s ease; }
+    .proj-grid.is-visible .proj-card { opacity: 1; transform: none; }
+    .proj-grid.is-visible .proj-card:nth-child(2) { transition-delay: .12s; }
+    .proj-grid.is-visible .proj-card:nth-child(3) { transition-delay: .20s; }
+    .proj-grid.is-visible .proj-card:nth-child(4) { transition-delay: .28s; }
+
+    /* ───────── project card ───────── */
+    .proj-card { background: #fff; border-radius: 28px; overflow: hidden; }
+    .proj-card:hover { transform: translateY(-6px); box-shadow: 0 22px 40px rgba(17,43,82,.14); }
+    .proj-card .img-wrap { overflow: hidden; }
+    .proj-card .img-wrap img { transition: transform .5s ease; }
+    .proj-card:hover .img-wrap img { transform: scale(1.06); }
+    .btn-lihat { transition: background .25s ease, transform .25s ease; }
+    .btn-lihat:hover { background: #f08e10; transform: scale(1.03); }
+    .info-dot:hover { transform: scale(1.1); }
+    .coming-soon-tag { background: linear-gradient(180deg, rgba(255,158,41,.96), rgba(240,142,16,.96)); }
+
+    /* ───────── filter sidebar ───────── */
+    .filter-pill { background: var(--navy); }
+    .check-row { cursor: pointer; user-select: none; }
+    .check-row input { accent-color: var(--orange); width: 16px; height: 16px; cursor: pointer; }
+    .units-range { -webkit-appearance: none; appearance: none; height: 4px; border-radius: 9999px; background: #d8c9b6; outline: none; }
+    .units-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--orange); border: 3px solid #fff; box-shadow: 0 2px 6px rgba(17,43,82,.3); cursor: pointer; }
+    .units-range::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--orange); border: 3px solid #fff; cursor: pointer; }
+
+    .section-empty { display: none; }
+
+    /* ───────── footer ───────── */
+    @keyframes popUp {
+  0% {
+    opacity: 0;
+    transform: translateY(80px) scale(.6);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1.08);
+  }
+
+  80% {
+    transform: translateY(4px) scale(.98);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.closing-banner img {
+  animation: popUp .9s cubic-bezier(.2,.8,.3,1) both;
+}
+  </style>
+</head>
+
+<body class="font-sans antialiased text-slate-900">
+  <main class="min-h-screen">
+
+    <!-- ══════════════ HEADER ══════════════ -->
+<header class="site-header sticky top-0 z-30 bg-[#072a55] text-white shadow-lg overflow-visible">
+      <div class="mx-auto flex w-full max-w-[1320px] items-center justify-between gap-4 px-6 py-0 sm:px-8 lg:px-12">
+        <a class="brand relative block w-[20%] -mb-8 z-20" href="{% url 'home' %}" aria-label="FirstHome home">
+          <img src="{% static 'img/FirstHome Logo Web.png' %}" alt="FirstHome" class="w-full h-auto block" />
+        </a>
+
+        <div class="primary-nav hidden items-center gap-8 md:flex">
+          <a class="text-sm font-semibold uppercase tracking-[0.18em] transition hover:text-[#ff9e29]" href="{% url 'home' %}">FirstHome</a>
+          <a class="text-sm font-semibold uppercase tracking-[0.18em] transition hover:text-[#ff9e29]" href="#">Tentang Kami</a>
+          <a class="text-sm font-semibold uppercase tracking-[0.18em] transition hover:text-[#ff9e29]" href="{% url 'project_list' %}">Projek</a>
+          <a class="text-sm font-semibold uppercase tracking-[0.18em] transition hover:text-[#ff9e29]" href="#">Panduan</a>
+          <a class="text-sm font-semibold uppercase tracking-[0.18em] transition hover:text-[#ff9e29]" href="#">Hubungi Kami</a>
+          <a class="text-sm font-semibold uppercase tracking-[0.18em] transition hover:text-[#ff9e29]" href="#">Lokasi</a>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <button class="language-button inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold uppercase tracking-[0.18em] text-white transition duration-300 hover:bg-white/20">EN</button>
+        </div>
+      </div>
+    </header>
+    <!-- ══════════════ HERO BANNER ══════════════ -->
+    <section class="hero-banner relative w-full h-[clamp(300px,34vw,600px)]">
+      <img class="absolute inset-0 w-full h-full object-cover object-center z-0" src="{% static 'img/Project Page Cover.jpg' %}" alt=""
+           onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(120deg,#1d3a63,#2f5688 55%,#c98a4a)'">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/25 via-black/10 to-black/55 z-[1]"></div>
+
+      <div class="relative z-[2] h-full w-[min(1320px,calc(100%-40px))] pb-10 mx-auto flex flex-col items-center justify-end text-center text-white">
+        <h1 class="hero-title m-0 text-[clamp(34px,5vw,64px)] font-extrabold leading-none [text-shadow:0_4px_24px_rgba(0,0,0,.35)]">FirstHome Projek</h1>
+        <p class="hero-sub mt-3 text-[clamp(13px,1.4vw,18px)] font-medium tracking-wide [text-shadow:0_2px_12px_rgba(0,0,0,.4)]">Impian Bersatu, Koleksi Kami</p>
+      </div>
+    </section>
+    <!-- ══════════════ BODY: SIDEBAR + PROJECTS ══════════════ -->
+    <div class="w-[min(1320px,calc(100%-40px))] mx-auto mt-12 mb-4 grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-10 lg:gap-12">
+
+      <!-- ────────── FILTER SIDEBAR ────────── -->
+      <aside class="filters relative">
+        <div class="lg:sticky lg:top-24">
+          <!-- decorative -->
+          <img class="reveal-pop delay-2 block w-[62px] h-auto justify-self-start mb-5" src="{% static 'img/Love.png' %}" alt="" data-reveal>
+        
+          <!-- status filter -->
+          <div class="filter-pill rounded-2xl text-white text-center text-[13px] font-bold uppercase tracking-wide py-3 px-4 mb-4">Status</div>
+          <div class="space-y-3 mb-9 pl-1">
+            <label class="check-row flex items-center gap-3 text-[14px] font-semibold text-[--ink]">
+              <input type="checkbox" class="f-status" value="On Going"> Sedang Berlangsung
+            </label>
+            <label class="check-row flex items-center gap-3 text-[14px] font-semibold text-[--ink]">
+              <input type="checkbox" class="f-status" value="Past"> Lepas
+            </label>
+            <label class="check-row flex items-center gap-3 text-[14px] font-semibold text-[--ink]">
+              <input type="checkbox" class="f-status" value="Upcoming"> Akan Datang
+            </label>
+          </div>
+
+          <!-- state filter -->
+          <div class="filter-pill rounded-2xl text-white text-center text-[13px] font-bold uppercase tracking-wide py-3 px-4 mb-4">Negeri</div>
+          <div class="space-y-3 mb-7 pl-1">
+            {% for state in states %}
+            <label class="check-row flex items-center gap-3 text-[14px] font-semibold text-[--ink]">
+                <input
+                    type="checkbox"
+                    class="f-state"
+                    value="{{ state }}"
+                >
+                {{ state }}
+            </label>
+            {% endfor %}
+          </div>
+
+          <!-- property ownership filter -->
+          <div class="filter-pill rounded-2xl text-white text-center text-[13px] font-bold uppercase tracking-wide py-3 px-4 mb-4">Pemilikan Harta</div>
+          <div class="space-y-3 mb-9 pl-1">
+            <label class="check-row flex items-center gap-3 text-[14px] font-semibold text-[--ink]">
+              <input type="checkbox" class="f-ownership" value="Freehold"> Pegangan Bebas
+            </label>
+            <label class="check-row flex items-center gap-3 text-[14px] font-semibold text-[--ink]">
+              <input type="checkbox" class="f-ownership" value="Leasehold"> Pegangan Berpajakan
+            </label>
+          </div>
+
+          <!-- units range -->
+          <div class="pl-1 pr-1 mb-10">
+            <div class="flex items-center justify-between text-[12px] font-bold text-[--ink] mb-2">
+              <span>Bilangan Unit</span>
+              <span>≤ <span id="unitsValue">2000</span></span>
+            </div>
+            <input id="unitsRange" class="units-range w-full" type="range" min="1" max="2000" step="10" value="2000">
+          </div>
+
+
+
+          <button id="resetFilters" class="w-full rounded-full border-2 border-[--navy] text-[--navy] text-[12px] font-bold uppercase tracking-wide py-2.5 transition hover:bg-[--navy] hover:text-white">Set Semula</button>
+
+          <!-- mascot -->
+          <img src="{% static 'img/PNG MAscot 10.png' %}" alt="" class="w-3xl mx-auto hidden lg:block"
+               style="animation: floatSoft 5s ease-in-out infinite">
+        </div>
+      </aside>
+
+      <!-- ────────── PROJECT SECTIONS ────────── -->
+      <div class="projects-wrap">
+        <p id="noResults" class="hidden text-center text-[--ink] font-semibold text-lg py-20">Tiada projek yang sepadan dengan tapisan anda.</p>
+
+        <!-- ═══ SEDANG BERLANGSUNG ═══ -->
+        <section class="proj-section mb-16" data-section="On Going">
+            <img class="section-mark reveal-scale delay-1 w-[15%] h-auto mb-2 mx-auto" src="{% static 'img/Wave Element 1.png' %}" alt="" data-reveal>
+          <div class="flex items-center justify-center gap-3 mb-8">
+            <h2 class="text-[clamp(24px,3vw,34px)] font-extrabold text-[--ink] text-center reveal-fade" data-reveal>Projek Sedang Berlangsung</h2>
+          </div>
+          <div class="proj-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7" data-reveal-group>
+
+            {% for project in projects %}
+            {% if project.status == 'Published' and project.progress_tag == 'On Going' %}
+            <article class="proj-card shadow-card flex flex-col"
+                    data-status="{{ project.progress_tag }}"
+                    data-state="{{ project.get_project_state_display }}"
+                    data-ownership="{{ project.property_ownership }}"
+                    data-units="{{ project.total_units }}">
+
+              <div class="img-wrap aspect-[16/10]">
+                <img src="{{ project.banner_img.url }}" alt="{{ project.project_name }}"
+                    class="w-full h-full object-cover p-[5%] rounded-[38px]"
+                    onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#b0c4d8,#7e98b3)'">
+              </div>
+
+              <div class="px-5 flex flex-col flex-1">
+                <div class="flex gap-3 flex-1">
+                  <div class="flex flex-col flex-1 min-w-0 text-left">
+                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#1aa260]">{{ project.get_progress_tag_display }}</span>
+                    <h3 class="mt-1 text-[16px] font-extrabold text-[--ink] leading-tight uppercase">{{ project.project_name }}</h3>
+                    <p class="mt-1 flex items-center gap-1 text-[12px] font-semibold text-[#556785]">
+                      {{ project.get_project_state_display }}
+                    </p>
+                    <div class="mt-3 text-[11.5px] text-[--ink] leading-relaxed">
+                      <p>Pegangan: <b>{{ project.get_property_ownership_display }}</b></p>
+                      <p>Jumlah Unit: <b>{{ project.total_units }}</b></p>
+                    </div>
+                  </div>
+                  {% if project.waze_link or project.google_maps_link %}
+                  <div class="flex flex-col items-center gap-2 shrink-0 pt-1">
+                    {% if project.waze_link %}
+                    <a href="{{ project.waze_link }}" target="_blank" title="Buka di Waze"
+                      class="grid place-items-center w-10 h-10 rounded-full hover:shadow-md hover:-translate-y-0.5 transition">
+                      <img src="{% static 'img/waze.png' %}" alt="Waze" class="w-full h-full object-contain">
+                    </a>
+                    {% endif %}
+                    {% if project.google_maps_link %}
+                    <a href="{{ project.google_maps_link }}" target="_blank" title="Buka di Google Maps"
+                      class="grid place-items-center w-10 h-10 rounded-full hover:shadow-md hover:-translate-y-0.5 transition">
+                      <img src="{% static 'img/google map.png' %}" alt="Google Maps" class="w-full h-full object-contain">
+                    </a>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                </div>
+                <a href="#" class="btn-lihat mt-4 mb-4 inline-flex items-center justify-center w-full rounded-full bg-[--orange] text-white text-[12px] font-extrabold uppercase tracking-wide py-3">Lihat Hartanah</a>
+              </div>
+            </article>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </section>
+
+        <!-- ═══ AKAN DATANG ═══ -->
+        <section class="proj-section mb-16" data-section="Upcoming">
+            <img class="section-mark reveal-scale delay-1 w-[15%] h-auto mb-2 mx-auto" src="{% static 'img/Wave Element 1.png' %}" alt="" data-reveal>
+          <div class="flex items-center justify-center gap-3 mb-3">
+            <h2 class="text-[clamp(24px,3vw,34px)] font-extrabold text-[--ink] text-center reveal-fade" data-reveal>Projek Akan Datang</h2>
+          </div>
+          <p class="text-center text-[13px] font-medium text-[#5a6b85] max-w-[640px] mx-auto mb-8 reveal-fade" data-reveal>
+            Komuniti baharu kami sedang dirancang. Daftar minat anda lebih awal untuk mendapat keutamaan tempahan apabila pendaftaran rasmi dibuka.
+          </p>
+          <div class="proj-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7" data-reveal-group>
+
+          {% for project in projects %}
+          {% if project.status == 'Published' and project.progress_tag == 'Upcoming' %}
+          <article class="proj-card shadow-card flex flex-col"
+                  data-status="{{ project.progress_tag }}"
+                  data-state="{{ project.get_project_state_display }}"
+                  data-ownership="{{ project.property_ownership }}"
+                  data-units="{{ project.total_units }}">
+
+            <div class="img-wrap aspect-[16/10]">
+              <img src="{{ project.banner_img.url }}" alt="{{ project.project_name }}"
+                  class="w-full h-full object-cover p-[5%] rounded-[38px]"
+                  onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#b0c4d8,#7e98b3)'">
+            </div>
+
+            <div class="px-5 flex flex-col flex-1">
+              <div class="flex gap-3 flex-1">
+                <div class="flex flex-col flex-1 min-w-0 text-left">
+                  <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#1aa260]">{{ project.get_progress_tag_display }}</span>
+                  <h3 class="mt-1 text-[16px] font-extrabold text-[--ink] leading-tight uppercase">{{ project.project_name }}</h3>
+                  <p class="mt-1 flex items-center gap-1 text-[12px] font-semibold text-[#556785]">
+                    {{ project.get_project_state_display }}
+                  </p>
+                  <div class="mt-3 text-[11.5px] text-[--ink] leading-relaxed">
+                    <p>Pegangan: <b>{{ project.get_property_ownership_display }}</b></p>
+                    <p>Jumlah Unit: <b>{{ project.total_units }}</b></p>
+                  </div>
+                </div>
+                {% if project.waze_link or project.google_maps_link %}
+                <div class="flex flex-col items-center gap-2 shrink-0 pt-1">
+                  {% if project.waze_link %}
+                  <a href="{{ project.waze_link }}" target="_blank" title="Buka di Waze"
+                    class="grid place-items-center w-10 h-10 rounded-full hover:shadow-md hover:-translate-y-0.5 transition">
+                    <img src="{% static 'img/waze.png' %}" alt="Waze" class="w-full h-full object-contain">
+                  </a>
+                  {% endif %}
+                  {% if project.google_maps_link %}
+                  <a href="{{ project.google_maps_link }}" target="_blank" title="Buka di Google Maps"
+                    class="grid place-items-center w-10 h-10 rounded-full hover:shadow-md hover:-translate-y-0.5 transition">
+                    <img src="{% static 'img/google map.png' %}" alt="Google Maps" class="w-full h-full object-contain">
+                  </a>
+                  {% endif %}
+                </div>
+                {% endif %}
+              </div>
+              <a href="#" class="btn-lihat mt-4 mb-4 inline-flex items-center justify-center w-full rounded-full bg-[--orange] text-white text-[12px] font-extrabold uppercase tracking-wide py-3">Lihat Hartanah</a>
+            </div>
+          </article>
+          {% endif %}
+          {% endfor %}
+          </div>
+        </section>
+
+        <!-- ═══ TERDAHULU ═══ -->
+        <section class="proj-section mb-8" data-section="Past">
+            <img class="section-mark reveal-scale delay-1 w-[15%] h-auto mb-2 mx-auto" src="{% static 'img/Wave Element 1.png' %}" alt="" data-reveal>
+          <div class="flex items-center justify-center gap-3 mb-3">
+            <h2 class="text-[clamp(24px,3vw,34px)] font-extrabold text-[--ink] text-center reveal-fade" data-reveal>Projek Terdahulu</h2>
+          </div>
+          <p class="text-center text-[13px] font-medium text-[#5a6b85] max-w-[640px] mx-auto mb-8 reveal-fade" data-reveal>
+            Sebagai cerminan komitmen kami terhadap kediaman berkualiti, projek-projek terdahulu kami telah berjaya disiapkan dan kini menjadi rumah idaman ribuan keluarga.
+          </p>
+          <div class="proj-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7" data-reveal-group>
+
+          {% for project in projects %}
+          {% if project.status == 'Published' and project.progress_tag == 'Past' %}
+          <article class="proj-card shadow-card flex flex-col"
+                  data-status="{{ project.progress_tag }}"
+                  data-state="{{ project.get_project_state_display }}"
+                  data-ownership="{{ project.property_ownership }}"
+                  data-units="{{ project.total_units }}">
+
+            <div class="img-wrap aspect-[16/10]">
+              <img src="{{ project.banner_img.url }}" alt="{{ project.project_name }}"
+                  class="w-full h-full object-cover p-[5%] rounded-[38px]"
+                  onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#b0c4d8,#7e98b3)'">
+            </div>
+
+            <div class="px-5 flex flex-col flex-1">
+              <div class="flex gap-3 flex-1">
+                <div class="flex flex-col flex-1 min-w-0 text-left">
+                  <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#1aa260]">{{ project.get_progress_tag_display }}</span>
+                  <h3 class="mt-1 text-[16px] font-extrabold text-[--ink] leading-tight uppercase">{{ project.project_name }}</h3>
+                  <p class="mt-1 flex items-center gap-1 text-[12px] font-semibold text-[#556785]">
+                    {{ project.get_project_state_display }}
+                  </p>
+                  <div class="mt-3 text-[11.5px] text-[--ink] leading-relaxed">
+                    <p>Pegangan: <b>{{ project.get_property_ownership_display }}</b></p>
+                    <p>Jumlah Unit: <b>{{ project.total_units }}</b></p>
+                  </div>
+                </div>
+                {% if project.waze_link or project.google_maps_link %}
+                <div class="flex flex-col items-center gap-2 shrink-0 pt-1">
+                  {% if project.waze_link %}
+                  <a href="{{ project.waze_link }}" target="_blank" title="Buka di Waze"
+                    class="grid place-items-center w-10 h-10 rounded-full hover:shadow-md hover:-translate-y-0.5 transition">
+                    <img src="{% static 'img/waze.png' %}" alt="Waze" class="w-full h-full object-contain">
+                  </a>
+                  {% endif %}
+                  {% if project.google_maps_link %}
+                  <a href="{{ project.google_maps_link }}" target="_blank" title="Buka di Google Maps"
+                    class="grid place-items-center w-10 h-10 rounded-full hover:shadow-md hover:-translate-y-0.5 transition">
+                    <img src="{% static 'img/google map.png' %}" alt="Google Maps" class="w-full h-full object-contain">
+                  </a>
+                  {% endif %}
+                </div>
+                {% endif %}
+              </div>
+              <a href="#" class="btn-lihat mt-4 mb-4 inline-flex items-center justify-center w-full rounded-full bg-[--orange] text-white text-[12px] font-extrabold uppercase tracking-wide py-3">Lihat Hartanah</a>
+            </div>
+          </article>
+          {% endif %}
+          {% endfor %}
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ══════════════ CLOSING BANNER ══════════════ -->
+    <section class="closing-banner mt-0 bg-transparent">
+      <img src="{% static 'img/Project Bottom Cover.png' %}" alt="FirstHome closing banner">
+    </section>
+
+    <!-- ══════════════ FOOTER ══════════════ -->
+    <footer class="site-footer grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-4 md:gap-6 py-4 px-6 md:px-[54px] bg-[--navy] mt-[-2px] text-white text-[10px] font-semibold">
+      <form class="subscribe-form flex items-center justify-center md:justify-start gap-[14px]" onsubmit="return false">
+        <label for="email">Subscribe</label>
+        <input id="email" name="email" type="email" placeholder="Your Email Here"
+          class="w-[205px] max-w-full h-[22px] border-0 px-[10px] text-navy text-[10px] font-bold rounded-sm">
+      </form>
+      <p class="m-0 text-center">&copy; 2026 by the FirstHome Builder Sdn Bhd</p>
+      <div class="social-links flex justify-center md:justify-end gap-4" aria-label="Social links">
+        <a href="#" class="grid place-items-center w-7 h-7 rounded-full bg-white text-navy transition-transform duration-[240ms] hover:-translate-y-[3px]" aria-label="Facebook">f</a>
+        <a href="#" class="grid place-items-center w-7 h-7 rounded-full bg-white text-navy transition-transform duration-[240ms] hover:-translate-y-[3px]" aria-label="Instagram">ig</a>
+        <a href="#" class="grid place-items-center w-7 h-7 rounded-full bg-white text-navy transition-transform duration-[240ms] hover:-translate-y-[3px]" aria-label="WhatsApp">wa</a>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    /* ───── scroll reveal ───── */
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        obs.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -5% 0px' });
+    document.querySelectorAll('[data-reveal], [data-reveal-group]').forEach(el => io.observe(el));
+
+    /* ───── filtering ───── */
+    const cards       = Array.from(document.querySelectorAll('.proj-card'));
+    const sections    = Array.from(document.querySelectorAll('.proj-section'));
+    const statusBoxes = Array.from(document.querySelectorAll('.f-status'));
+    const stateBoxes  = Array.from(document.querySelectorAll('.f-state'));
+    const ownershipBoxes  = Array.from(document.querySelectorAll('.f-ownership'));
+    const unitsRange  = document.getElementById('unitsRange');
+    const unitsValue  = document.getElementById('unitsValue');
+    const noResults   = document.getElementById('noResults');
+
+    function checkedValues(boxes) {
+      return boxes.filter(b => b.checked).map(b => b.value);
+    }
+
+    function applyFilters() {
+      const statuses = checkedValues(statusBoxes);
+      const states   = checkedValues(stateBoxes);
+      const ownerships = checkedValues(ownershipBoxes);
+      const maxUnits  = parseInt(unitsRange.value, 10);
+      unitsValue.textContent = maxUnits;
+
+      let totalVisible = 0;
+
+      cards.forEach(card => {
+        const okStatus = statuses.length === 0 || statuses.includes(card.dataset.status);
+        const okState  = states.length === 0   || states.includes(card.dataset.state);
+        const okOwnership = ownerships.length === 0 || ownerships.includes(card.dataset.ownership);
+        const okUnits  = (parseInt(card.dataset.units, 10) || 0) <= maxUnits;
+        const show = okStatus && okState && okOwnership && okUnits;
+        card.style.display = show ? '' : 'none';
+        if (show) totalVisible++;
+      });
+
+      /* hide a whole section if none of its cards are visible */
+      sections.forEach(sec => {
+        const anyVisible = Array.from(sec.querySelectorAll('.proj-card'))
+          .some(c => c.style.display !== 'none');
+        sec.classList.toggle('section-empty', !anyVisible);
+      });
+
+      noResults.classList.toggle('hidden', totalVisible !== 0);
+    }
+
+    [...statusBoxes, ...stateBoxes, ...ownershipBoxes].forEach(b => b.addEventListener('change', applyFilters));
+    unitsRange.addEventListener('input', applyFilters);
+    document.getElementById('resetFilters').addEventListener('click', () => {
+      statusBoxes.forEach(b => b.checked = false);
+      stateBoxes.forEach(b => b.checked = false);
+      ownershipBoxes.forEach(b => b.checked = false);
+      unitsRange.value = unitsRange.max;
+      applyFilters();
+    });
+
+    /* run once on load so sections with no projects are hidden automatically */
+    applyFilters();
+  </script>
+</body>
+
+</html>

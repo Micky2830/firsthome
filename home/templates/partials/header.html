@@ -1,0 +1,213 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FirstHome | About Us</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600;1,700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Montserrat', 'Arial', 'sans-serif'],
+          },
+          boxShadow: {
+            soft: '0 26px 38px rgba(17, 43, 82, 0.1)',
+            softSm: '0 20px 38px rgba(17, 43, 82, 0.12)',
+          },
+        },
+      },
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --navy: #112b52;
+      --cream: #fcf4eb;
+      --pink: #ff3364;
+      --soft-pink: #f793c8;
+      --orange: #ff9e29;
+      --ink: #17325b;
+      --white: #ffffff;
+    }
+    body { background: var(--cream); }
+
+    /* ── Prevent any horizontal scroll / empty gap on the right at EVERY screen size ──
+       `overflow-x: clip` is preferred (it does NOT break the sticky header);
+       `overflow-x: hidden` is a fallback for older browsers. */
+    html, body { max-width: 100%; overflow-x: hidden; overflow-x: clip; }
+
+    /* The hero's spinning/scaling decorations and the mascot's negative margin
+       can extend past the right edge — clip them so they can't create a gap. */
+    .hero-section { overflow-x: hidden; overflow-x: clip; }
+    @keyframes headerSlideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes navFadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes popIn { from { opacity: 0; transform: scale(0); } to { opacity: 1; transform: scale(1); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes mascotPop { 0% { opacity: 0; transform: var(--pop-start, translateY(42px) scale(.88)); } 62% { opacity: 1; transform: var(--pop-rest, translateY(0) scale(1)) scale(1.05); } 82% { opacity: 1; transform: var(--pop-rest, translateY(0) scale(1)) scale(.98); } 100% { opacity: 1; transform: var(--pop-rest, translateY(0) scale(1)); } }
+    @keyframes orbitSpin { from { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } to { transform: rotate(360deg) scale(1); } }
+    @keyframes orbitSpinRev { from { transform: rotate(0deg) scale(1.04); } 50% { transform: rotate(-180deg) scale(.94); } to { transform: rotate(-360deg) scale(1.04); } }
+    @keyframes pulseSlow { 0%,100% { opacity: .92; } 50% { opacity: 1; } }
+    @keyframes floatSoft { 0%,100% { translate: 0 0; } 50% { translate: 0 -12px; } }
+    @keyframes blobFloat { 0%,100% { transform: translateY(0) scale(1); } 33% { transform: translateY(-14px) scale(1.06); } 66% { transform: translateY(8px) scale(.96); } }
+    @keyframes spinIn { from { opacity: 0; transform: rotate(-180deg) scale(.3); } to { opacity: 1; transform: rotate(0) scale(1); } }
+    @keyframes lineTravel {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+    @keyframes waRing { 0%,100% { transform: scale(1); opacity: .7; } 50% { transform: scale(1.3); opacity: 0; } }
+
+    .site-header { animation: headerSlideDown .5s cubic-bezier(.22,1,.36,1) both; }
+    .primary-nav a { position: relative; padding-bottom: .25rem; opacity: 0; animation: navFadeIn .4s ease forwards; transition: transform .24s ease; }
+    .primary-nav a:nth-child(1) { animation-delay: .15s; }
+    .primary-nav a:nth-child(2) { animation-delay: .22s; }
+    .primary-nav a:nth-child(3) { animation-delay: .29s; }
+    .primary-nav a:nth-child(4) { animation-delay: .36s; }
+    .primary-nav a:nth-child(5) { animation-delay: .43s; }
+    .primary-nav a:nth-child(6) { animation-delay: .50s; }
+    .primary-nav a::after { content: ""; position: absolute; left: 0; bottom: 0; width: 0; height: 2px; background: #ff9e29; border-radius: 9999px; transition: width .28s ease; }
+    .primary-nav a:hover::after, .primary-nav a[aria-current]::after { width: 100%; }
+    
+    /* ---------- Small laptops / large tablets (≤1024px) ---------- */
+    @media (max-width: 1024px) {
+      .site-header > div { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+      .primary-nav { gap: 1.25rem !important; }
+      .primary-nav a { font-size: 0.78rem !important; letter-spacing: 0.12em !important; }
+      .brand { width: 26% !important; }
+      .site-footer { padding-left: 28px !important; padding-right: 28px !important; }
+    }
+
+    /* ---------- Tablets, portrait (≤768px) ---------- */
+    @media (max-width: 768px) {
+      /* Header: brand + language on top, nav wraps onto its own centered row */
+      .site-header > div {
+        flex-wrap: wrap !important;
+        row-gap: 0.6rem !important;
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+      }
+      .brand { width: 150px !important; margin-bottom: 0 !important; }
+      .primary-nav {
+        display: flex !important;           /* override Tailwind's `hidden` */
+        order: 3;
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.65rem 1.1rem !important;
+      }
+      .primary-nav a {
+        font-size: 0.72rem !important;
+        opacity: 1 !important;              /* skip the fade-in offsets on mobile */
+        animation: none !important;
+        padding-bottom: 0 !important;
+      }
+
+      /* Footer: stack into one centered column */
+      .site-footer {
+        grid-template-columns: 1fr !important;
+        justify-items: center;
+        text-align: center;
+        gap: 1rem !important;
+        padding: 1.25rem !important;
+      }
+      .subscribe-form { justify-content: center; flex-wrap: wrap; }
+      .social-links { justify-content: center !important; }
+    }
+
+    /* ---------- Phones (≤480px) ---------- */
+    @media (max-width: 480px) {
+      .subscribe-form input { width: 100% !important; max-width: 220px; }
+    }
+  </style>
+</head>
+
+<body class="font-sans antialiased text-slate-900">
+  <main class="min-h-screen">
+    <header class="site-header sticky top-0 z-30 bg-[#072a55] text-white shadow-lg overflow-visible">
+      <div class="mx-auto flex w-full max-w-[1320px] items-center justify-between gap-4 px-6 py-0 sm:px-8 lg:px-12">
+        <a class="brand relative block w-[20%] -mb-8 z-20" href="{% url 'home' %}" aria-label="FirstHome home">
+          <img src="{% static 'img/FirstHome Logo Web.png' %}" alt="FirstHome" class="w-full h-auto block" />
+        </a>
+
+        <div class="primary-nav hidden items-center gap-8 md:flex">
+          <a class="text-sm font-semibold uppercase tracking-[0.18em] transition hover:text-[#ff9e29]" href="{% url 'home' %}">FirstHome</a>
+          <a class="text-sm font-semibold uppercase tracking-[0.18em] transition hover:text-[#ff9e29]" href="#">Tentang Kami</a>
+          <a class="text-sm font-semibold uppercase tracking-[0.18em] transition hover:text-[#ff9e29]" href="{% url 'project_list' %}">Projek</a>
+          <a class="text-sm font-semibold uppercase tracking-[0.18em] transition hover:text-[#ff9e29]" href="#">Panduan</a>
+          <a class="text-sm font-semibold uppercase tracking-[0.18em] transition hover:text-[#ff9e29]" href="#">Hubungi Kami</a>
+          <a class="text-sm font-semibold uppercase tracking-[0.18em] transition hover:text-[#ff9e29]" href="#">Lokasi</a>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <button class="language-button inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold uppercase tracking-[0.18em] text-white transition duration-300 hover:bg-white/20">EN</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ══════════════ FOOTER ══════════════ -->
+    <footer class="site-footer grid grid-cols-[1fr_auto_1fr] items-center gap-6 min-h-[54px] py-[10px] px-[54px] bg-navy text-white text-[10px] font-semibold">
+      <form class="subscribe-form flex items-center gap-[14px]">
+        <label for="email">Subscribe</label>
+        <input id="email" name="email" type="email" placeholder="Your Email Here"
+          class="w-[205px] h-[18px] border-0 px-[10px] text-navy text-[9px] font-bold">
+      </form>
+      <p class="m-0 text-center">&copy; 2026 by the FirstHome Builder Sdn Bhd</p>
+      <div class="social-links flex justify-end gap-4" aria-label="Social links">
+        <a href="#" class="grid place-items-center w-7 h-7 rounded-full bg-white transition-transform duration-[240ms] hover:-translate-y-[3px]" aria-label="Facebook">
+          <img src="{% static 'img/Icon Facebook.png' %}" alt="" class="w-full h-full object-contain">
+        </a>
+        <a href="#" class="grid place-items-center w-7 h-7 rounded-full bg-white transition-transform duration-[240ms] hover:-translate-y-[3px]" aria-label="Instagram">
+          <img src="{% static 'img/Icon Instagram.png' %}" alt="" class="w-full h-full object-contain">
+        </a>
+        <a href="#" class="grid place-items-center w-7 h-7 rounded-full bg-white transition-transform duration-[240ms] hover:-translate-y-[3px]" aria-label="WhatsApp">
+          <img src="{% static 'img/Icon Whatsapp.png' %}" alt="" class="w-full h-full object-contain">
+        </a>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        obs.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -5% 0px' });
+
+    document.querySelectorAll('[data-reveal], [data-reveal-group]').forEach(el => {
+      io.observe(el);
+    });
+
+    const popObs = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        obs.unobserve(entry.target);
+      });
+    }, { threshold: 0.22, rootMargin: '0px 0px -8% 0px' });
+
+    document.querySelectorAll('[data-scroll-pop]').forEach(el => popObs.observe(el));
+
+    const collageObs = new IntersectionObserver((entries, obs) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add('is-collage-visible');
+    obs.unobserve(entry.target);
+  });
+}, { threshold: 0.15 });
+const aboutSection = document.querySelector('.about-section');
+if (aboutSection) collageObs.observe(aboutSection);
+  </script>
+</body>
+
+</html>

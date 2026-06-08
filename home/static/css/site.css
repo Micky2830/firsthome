@@ -1,0 +1,768 @@
+:root {
+    --navy: #112b52;
+    --cream: #fcf4eb;
+    --pink: #ff3364;
+    --soft-pink: #f793c8;
+    --orange: #ff9e29;
+    --ink: #17325b;
+    --white: #ffffff;
+}
+
+body {
+    background: var(--cream);
+}
+
+/* ── Prevent any horizontal scroll / empty gap on the right at EVERY screen size ──
+       `overflow-x: clip` is preferred (it does NOT break the sticky header);
+       `overflow-x: hidden` is a fallback for older browsers. */
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-x: clip;
+}
+
+/* The hero's spinning/scaling decorations and the mascot's negative margin
+       can extend past the right edge — clip them so they can't create a gap. */
+.hero-section {
+    overflow-x: hidden;
+    overflow-x: clip;
+}
+
+@keyframes headerSlideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes navFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(26px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes mascotPop {
+    0% {
+        opacity: 0;
+        transform: var(--pop-start, translateY(42px) scale(.88));
+    }
+
+    62% {
+        opacity: 1;
+        transform: var(--pop-rest, translateY(0) scale(1)) scale(1.05);
+    }
+
+    82% {
+        opacity: 1;
+        transform: var(--pop-rest, translateY(0) scale(1)) scale(.98);
+    }
+
+    100% {
+        opacity: 1;
+        transform: var(--pop-rest, translateY(0) scale(1));
+    }
+}
+
+@keyframes orbitSpin {
+    from {
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(180deg) scale(1.08);
+    }
+
+    to {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+@keyframes orbitSpinRev {
+    from {
+        transform: rotate(0deg) scale(1.04);
+    }
+
+    50% {
+        transform: rotate(-180deg) scale(.94);
+    }
+
+    to {
+        transform: rotate(-360deg) scale(1.04);
+    }
+}
+
+@keyframes pulseSlow {
+
+    0%,
+    100% {
+        opacity: .92;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes floatSoft {
+
+    0%,
+    100% {
+        translate: 0 0;
+    }
+
+    50% {
+        translate: 0 -12px;
+    }
+}
+
+@keyframes blobFloat {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    33% {
+        transform: translateY(-14px) scale(1.06);
+    }
+
+    66% {
+        transform: translateY(8px) scale(.96);
+    }
+}
+
+@keyframes spinIn {
+    from {
+        opacity: 0;
+        transform: rotate(-180deg) scale(.3);
+    }
+
+    to {
+        opacity: 1;
+        transform: rotate(0) scale(1);
+    }
+}
+
+@keyframes lineTravel {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes waRing {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: .7;
+    }
+
+    50% {
+        transform: scale(1.3);
+        opacity: 0;
+    }
+}
+
+.site-header {
+    animation: headerSlideDown .5s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.primary-nav a {
+    position: relative;
+    padding-bottom: .25rem;
+    opacity: 0;
+    animation: navFadeIn .4s ease forwards;
+    transition: transform .24s ease;
+}
+
+.primary-nav a:nth-child(1) {
+    animation-delay: .15s;
+}
+
+.primary-nav a:nth-child(2) {
+    animation-delay: .22s;
+}
+
+.primary-nav a:nth-child(3) {
+    animation-delay: .29s;
+}
+
+.primary-nav a:nth-child(4) {
+    animation-delay: .36s;
+}
+
+.primary-nav a:nth-child(5) {
+    animation-delay: .43s;
+}
+
+.primary-nav a:nth-child(6) {
+    animation-delay: .50s;
+}
+
+.primary-nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: #ff9e29;
+    border-radius: 9999px;
+    transition: width .28s ease;
+}
+
+.primary-nav a:hover::after,
+.primary-nav a[aria-current]::after {
+    width: 100%;
+}
+
+.language-button {
+    animation: popIn .45s .55s cubic-bezier(.18, .89, .32, 1.28) both;
+    transition: transform .24s ease;
+}
+
+.language-button:hover {
+    transform: translateY(-3px);
+}
+
+.hero-copy-sub {
+    opacity: 0;
+    animation: fadeUp .6s .72s ease both;
+}
+
+.cta-button {
+    opacity: 0;
+    animation: fadeUp .6s .92s ease both;
+    transition: transform .24s ease, box-shadow .24s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+}
+
+.hero-mascot {
+    --pop-start: translateY(64px) scale(.76) rotate(-4deg);
+    --pop-rest: translateY(0) scale(1) rotate(0deg);
+    --pop-animation: mascotPop .78s cubic-bezier(.18, .89, .32, 1.28) forwards;
+}
+
+.hero-element-yellow {
+    transform-origin: center center;
+    animation: orbitSpin 14s linear infinite, pulseSlow 6s ease-in-out infinite;
+}
+
+.hero-element-orange {
+    transform-origin: center center;
+    animation: orbitSpinRev 10s linear infinite, pulseSlow 5s ease-in-out .8s infinite;
+}
+
+.hero-element-mascott {
+    filter: drop-shadow(0 24px 28px rgba(17, 43, 82, .24));
+    animation: floatSoft 5.4s ease-in-out 1.1s infinite;
+}
+
+.whatsapp-button {
+    position: absolute;
+    transition: transform .24s ease, box-shadow .24s ease;
+}
+
+.whatsapp-button:hover {
+    transform: translateY(-3px);
+}
+
+.whatsapp-button::before {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: 9999px;
+    background: rgba(57, 212, 101, .28);
+    animation: waRing 2.4s ease-in-out infinite;
+}
+
+.about-collage {
+    --pop-start: translateY(62px) scale(.86);
+    --pop-rest: translateY(0) scale(1);
+    --pop-animation: mascotPop .82s cubic-bezier(.18, .89, .32, 1.18) forwards;
+}
+
+.collage-mascot-slide {
+    opacity: 0;
+    transform: translateX(220px);
+    transition: opacity duration-2000 ease, transform duration-2000 cubic-bezier(.22, 1, .36, 1);
+}
+
+.about-section.is-collage-visible .collage-mascot-slide {
+    opacity: 1;
+    transform: translateX(0);
+    transition-delay: .95s;
+}
+
+.collage-el {
+    opacity: 0;
+    transition: opacity .75s ease, transform .85s cubic-bezier(.18, .89, .32, 1.22);
+}
+
+/* left house — slides in from left */
+.collage-house-left {
+    transform: translateX(-90px) scale(.9);
+}
+
+.about-section.is-collage-visible .collage-house-left {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    transition-delay: .08s;
+}
+
+/* right house — slides in from right */
+.collage-house-right {
+    transform: translateX(90px) scale(.9);
+}
+
+.about-section.is-collage-visible .collage-house-right {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    transition-delay: .08s;
+}
+
+/* centre family — rises from below */
+.collage-family {
+    transform: translateY(70px) scale(.93);
+}
+
+.about-section.is-collage-visible .collage-family {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition-delay: .26s;
+}
+
+/* right mascot — springy pop from right */
+.collage-mascot-right {
+    transform: translateX(60px) scale(.78) rotate(8deg);
+}
+
+.about-section.is-collage-visible .collage-mascot-right {
+    opacity: 1;
+    transform: translateX(0) scale(1) rotate(0deg);
+    transition-delay: .48s;
+    transition-timing-function: cubic-bezier(.18, .89, .32, 1.32);
+}
+
+/* idle float after reveal */
+.about-section.is-collage-visible .collage-mascot-right {
+    animation: floatSoft 4.2s ease-in-out 1.4s infinite;
+}
+
+.closing-section {
+    --pop-start: translateY(58px) scale(.94);
+    --pop-rest: translateY(0) scale(1);
+    --pop-animation: mascotPop .82s cubic-bezier(.18, .89, .32, 1.14) forwards;
+}
+
+.pop-on-scroll {
+    opacity: 0;
+    transform: var(--pop-start, translateY(42px) scale(.88));
+    transform-origin: center bottom;
+    will-change: opacity, transform;
+}
+
+.pop-on-scroll.is-visible {
+    animation: var(--pop-animation, mascotPop .72s cubic-bezier(.18, .89, .32, 1.18) forwards);
+}
+
+.reveal-fade {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity .75s ease, transform .75s cubic-bezier(.22, 1, .36, 1);
+}
+
+.reveal-fade.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-scale {
+    opacity: 0;
+    transform: scale(.72);
+    transition: opacity .65s ease, transform .65s cubic-bezier(.18, .89, .32, 1.22);
+}
+
+.reveal-scale.is-visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.reveal-pop {
+    opacity: 0;
+    transform: translateY(44px) scale(.88);
+    transition: opacity .6s ease, transform .6s cubic-bezier(.18, .89, .32, 1.28);
+}
+
+.reveal-pop.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.value-cards .value-card {
+    opacity: 0;
+    transform: translateY(48px) scale(.95);
+    transition: opacity .7s ease, transform .7s cubic-bezier(.18, .89, .32, 1.22);
+}
+
+.value-cards.is-visible .value-card {
+    opacity: 1;
+    transform: none;
+}
+
+.value-cards.is-visible .value-card:nth-child(1) {
+    transition-delay: .06s;
+}
+
+.value-cards.is-visible .value-card:nth-child(2) {
+    transition-delay: .22s;
+}
+
+.value-cards.is-visible .value-card:nth-child(3) {
+    transition-delay: .38s;
+}
+
+.value-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 26px 38px rgba(17, 43, 82, .1);
+}
+
+.value-card img {
+    display: block;
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+    margin-top: -70px;
+    margin-bottom: 20px;
+    transform: scale(0.6);
+    opacity: 0;
+    transition: transform .8s cubic-bezier(.34, 1.56, .64, 1), opacity .6s ease;
+}
+
+.value-cards.is-visible .value-card:nth-child(1) img {
+    transform: scale(1);
+    opacity: 1;
+    transition-delay: 0.2s;
+}
+
+.value-cards.is-visible .value-card:nth-child(2) img {
+    transform: scale(1);
+    opacity: 1;
+    transition-delay: 0.36s;
+}
+
+.value-cards.is-visible .value-card:nth-child(3) img {
+    transform: scale(1);
+    opacity: 1;
+    transition-delay: 0.52s;
+}
+
+.project-cards .project-card {
+    opacity: 0;
+    transform: translateY(40px) scale(.94);
+    transition: opacity .65s ease, transform .65s cubic-bezier(.18, .89, .32, 1.22), box-shadow .3s ease;
+}
+
+.project-cards.is-visible .project-card:nth-child(1) {
+    opacity: 1;
+    transform: none;
+    transition-delay: .08s;
+}
+
+.project-cards.is-visible .project-card:nth-child(2) {
+    opacity: 1;
+    transform: none;
+    transition-delay: .26s;
+}
+
+.project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 38px rgba(17, 43, 82, 0.12);
+}
+
+.project-card:hover .project-img-wrap img {
+    transform: scale(1.05);
+}
+
+.btn-lihat:hover {
+    background: #F08E10;
+    transform: scale(1.03);
+}
+
+/* .timeline-dots span { transform: scale(0); animation: dotPop .45s cubic-bezier(.18,.89,.32,1.28) forwards; }
+    .timeline-dots span:nth-child(1) { animation-delay: .1s; }
+    .timeline-dots span:nth-child(2) { animation-delay: .28s; }
+    .timeline-dots span:nth-child(3) { animation-delay: .46s; } */
+.about-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.about-section .blob {
+    position: absolute;
+    border-radius: 9999px;
+    opacity: .75;
+    filter: blur(16px);
+}
+
+.about-blob-1 {
+    width: 14rem;
+    height: 14rem;
+    left: 4%;
+    top: 3rem;
+    background: #ff9e29;
+}
+
+.about-blob-2 {
+    width: 10rem;
+    height: 10rem;
+    right: 10%;
+    top: 6rem;
+    background: #ff7bb0;
+}
+
+.about-blob-3 {
+    width: 9rem;
+    height: 9rem;
+    left: 10%;
+    bottom: 8rem;
+    background: #ff9e29;
+}
+
+.about-blob-4 {
+    width: 8rem;
+    height: 8rem;
+    right: 6%;
+    bottom: 6rem;
+    background: #ff7bb0;
+}
+
+.closing-section {
+    background-position: center bottom;
+    background-size: cover;
+    min-height: 560px;
+}
+
+/* ════════════════════════════════════════════════════════════
+       RESPONSIVE — MEDIA QUERIES
+       Breakpoints: 1024px (small laptop) · 768px (tablet) · 480px (phone)
+       !important is used so these reliably override Tailwind utilities.
+       ════════════════════════════════════════════════════════════ */
+
+/* ---------- Small laptops / large tablets (≤1024px) ---------- */
+@media (max-width: 1024px) {
+    .site-header>div {
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
+    }
+
+    .primary-nav {
+        gap: 1.25rem !important;
+    }
+
+    .primary-nav a {
+        font-size: 0.78rem !important;
+        letter-spacing: 0.12em !important;
+    }
+
+    .brand {
+        width: 26% !important;
+    }
+
+    .value-cards {
+        gap: 1.25rem !important;
+    }
+
+    .site-footer {
+        padding-left: 28px !important;
+        padding-right: 28px !important;
+    }
+}
+
+/* ---------- Tablets, portrait (≤768px) ---------- */
+@media (max-width: 768px) {
+
+    /* Header: brand + language on top, nav wraps onto its own centered row */
+    .site-header>div {
+        flex-wrap: wrap !important;
+        row-gap: 0.6rem !important;
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+    }
+
+    .brand {
+        width: 150px !important;
+        margin-bottom: 0 !important;
+    }
+
+    .primary-nav {
+        display: flex !important;
+        /* override Tailwind's `hidden` */
+        order: 3;
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.65rem 1.1rem !important;
+    }
+
+    .primary-nav a {
+        font-size: 0.72rem !important;
+        opacity: 1 !important;
+        /* skip the fade-in offsets on mobile */
+        animation: none !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* Hero: stack copy above mascot, give it real height instead of 16:9 */
+    .hero-section {
+        aspect-ratio: auto !important;
+        min-height: 82vh !important;
+    }
+
+    .hero-section>div {
+        flex-direction: column !important;
+        justify-content: center !important;
+        gap: 1.75rem;
+        padding: 2rem 1.25rem;
+        text-align: center;
+    }
+
+    .hero-copy {
+        width: 100% !important;
+        max-width: 460px;
+    }
+
+    .hero-copy h1 {
+        margin-bottom: 14px !important;
+    }
+
+    .hero-mascot {
+        width: min(72vw, 360px) !important;
+        height: auto !important;
+        aspect-ratio: 1 / 1.15;
+        margin-right: 0 !important;
+    }
+
+    /* Value cards: single column */
+    .value-cards {
+        grid-template-columns: 1fr !important;
+        gap: 4.5rem 1rem !important;
+    }
+
+    .value-card {
+        min-height: 0 !important;
+    }
+
+    .value-card img {
+        margin-top: -55px !important;
+    }
+
+    /* Project cards: single column */
+    .project-cards {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* About collage: shrink the stage so the absolutely-placed art stays tidy */
+    .collage-stage {
+        height: clamp(220px, 52vw, 360px) !important;
+    }
+
+    /* Footer: stack into one centered column */
+    .site-footer {
+        grid-template-columns: 1fr !important;
+        justify-items: center;
+        text-align: center;
+        gap: 1rem !important;
+        padding: 1.25rem !important;
+    }
+
+    .subscribe-form {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .social-links {
+        justify-content: center !important;
+    }
+}
+
+/* ---------- Phones (≤480px) ---------- */
+@media (max-width: 480px) {
+    .hero-section {
+        min-height: 88vh !important;
+    }
+
+    .hero-mascot {
+        width: min(82vw, 300px) !important;
+    }
+
+    /* Floating WhatsApp button: smaller and tucked into the corner */
+    .whatsapp-button {
+        width: 54px !important;
+        height: 54px !important;
+        right: 1rem !important;
+        bottom: 1rem !important;
+        border-width: 5px !important;
+    }
+
+    /* The collage gets crowded on phones — drop a decorative mascot, shrink stage */
+    .collage-mascot-slide {
+        display: none !important;
+    }
+
+    .collage-stage {
+        height: clamp(170px, 56vw, 270px) !important;
+    }
+
+    .closing-section {
+        min-height: 300px !important;
+    }
+
+    .subscribe-form input {
+        width: 100% !important;
+        max-width: 220px;
+    }
+}
